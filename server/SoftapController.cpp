@@ -147,7 +147,8 @@ int SoftapController::setSoftap(int argc, char *argv[]) {
             "ieee80211n=1\n"
             "hw_mode=%c\n"
             "ignore_broadcast_ssid=%d\n"
-            "wowlan_triggers=any\n",
+            "wowlan_triggers=any\n"
+            "ieee80211w=2\n",
             argv[2], argv[3], channel, (channel <= 14) ? 'g' : 'a', hidden));
 
     std::string fbuf;
