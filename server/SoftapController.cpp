@@ -37,6 +37,7 @@
 #include <android-base/file.h>
 #include <android-base/stringprintf.h>
 #include <cutils/log.h>
+#include <cutils/properties.h>
 #include <netutils/ifc.h>
 #include <private/android_filesystem_config.h>
 #include "wifi.h"
@@ -123,6 +124,7 @@ bool SoftapController::isSoftapStarted() {
 int SoftapController::setSoftap(int argc, char *argv[]) {
     int hidden = 0;
     int channel = AP_CHANNEL_DEFAULT;
+    int32_t ieee80211wMode = property_get_int32("persist.rev.80211w", 0);
 
     if (argc < 5) {
         ALOGE("Softap set is missing arguments. Please use:");
@@ -148,8 +150,8 @@ int SoftapController::setSoftap(int argc, char *argv[]) {
             "hw_mode=%c\n"
             "ignore_broadcast_ssid=%d\n"
             "wowlan_triggers=any\n"
-            "ieee80211w=2\n",
-            argv[2], argv[3], channel, (channel <= 14) ? 'g' : 'a', hidden));
+            "ieee80211w=%d\n",
+            argv[2], argv[3], channel, (channel <= 14) ? 'g' : 'a', hidden, ieee80211wMode));
 
     std::string fbuf;
     if (argc > 7) {
